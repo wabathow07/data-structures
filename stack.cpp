@@ -8,3 +8,17 @@ application:
 
 is a LIFO list
 */
+
+#include<iostream>
+using namespace std;
+
+class Stack {
+private:
+
+}
+
+
+int main() {
+
+
+}
