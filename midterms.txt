@@ -1,0 +1,6 @@
+WHAT WILL BE INCLUDED:
+- questions containing code: code -> output, given problem -> written code
+    + what type of operation can we use for data structure
+    + time in Big O notation for each operation in data structure
+- questions containing problems/theory: inorder -> postorder
+- implement array/linked list rep of tree
