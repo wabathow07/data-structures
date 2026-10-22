@@ -46,7 +46,60 @@ tree traversal:
 
 #include <iostream>
 #include <queue>
+#include<cmath>
 using namespace std;
+
+class ArrayTree {
+private:
+    int capacity;
+    char arr[capacity];
+    int node;
+
+public:
+    ArrayTree(int cap) {capacity = cap; node = 0; for (int i = 1; i <= capacity; i++) arr[i] = '-';}
+
+    void insertNode(char x, int index) {
+        if (index == 0) {
+            cout << "Invalid index\n"; 
+            return;
+        }
+
+        if (arr[index] != '-') {
+            cout << "Modified node " << index << " to " << x << "\n";
+            arr[index] = x;
+        }
+
+        arr[index] = x;
+        node++;
+    }
+
+    int determineHeight() {
+        int ans = log2(node + 1);
+        double ans1 = log2(node + 1);
+        if (ans1 > ans) return ans + 1;
+        else return ans;
+    }
+
+    void clone(ArrayTree a) {
+        for (int i = 1; i <= capacity; i++) {
+            a.arr[i] = this->arr[i];
+        }
+    }
+
+    bool isClone(ArrayTree a) {
+        for (int i = 1; i <= capacity; i++) {
+            if (a.arr[i] != this.arr[i]) return false;
+        }
+
+        return true;
+    }
+
+    void display() {
+        for (int i = 1; i <= capacity; i++) {
+            cout << i << ": " << arr[i] << "\n";
+        }
+    }
+};
 
 struct treeNode
 {
