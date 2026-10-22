@@ -3,4 +3,5 @@ WHAT WILL BE INCLUDED:
     + what type of operation can we use for data structure
     + time in Big O notation for each operation in data structure
 - questions containing problems/theory: inorder -> postorder
-- implement array/linked list rep of tree
+- implement array/linked list rep of stack/queue/tree
+- implement array rep of linked list
