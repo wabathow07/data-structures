@@ -1,0 +1,32 @@
+- uses of performance analysis:
+    + determine practicality of algorithm
+    + predict run time on large instance
+    + compare 2 algorithms that have different  asymptotic complexity
+        e.g., O(n) and O(n2)
+
+- limitations of analysis:
+    + doesnt account for constant factor (unless 1000n and n^2 when n < 1000 -> n^2 is smaller/faster)
+    + modern computers have hierarchical memory organization with different access time for memory at different levels of the hierarchy
+    + difference in memory access time is not put into account -> programs w/100 operations on 1 data set can run faster than programs w/1 operation on 50 sets of data
+
+- what measurement needs:
+    + a language, a working program, a computer, and a compiler with specific options
+    + test data: worst-case, best-case and average-case
+
+- timing (basic c++ code):
+start = clock();  /* code */  stop = clock();
+runTime = (double)(stop - start) / CLOCKS_PER_SEC;   // seconds
+
+- "what went wrong" slide: after 1 sort the data is alr sorted, so the clock will only be accurate for the first sort
+    -> fix: initiate the data inside the loop so it will be unsorted -> sort for every loop
+
+- "bad way to time" slide: 
+do {
+    counter++;
+    start = clock();
+    doSomething();
+    stop = clock();
+    elapsedTime += stop - start;
+} while (elapsedTime < 1000)
+
+-> the call might run shorter than 1 clock tick -> both reading lands on the same tick -> difference is 0 and doesn't grow
