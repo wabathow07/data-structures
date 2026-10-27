@@ -163,3 +163,167 @@ ArrayList createList(int cap)
 {
     return ArrayList(cap);
 }
+
+struct Node
+{
+    int data;
+    Node *next;
+
+    Node(int x)
+    {
+        data = x;
+        next = nullptr;
+    }
+};
+
+class LinkedList
+{
+private:
+    Node *head;
+    int top;
+
+public:
+    LinkedList()
+    {
+        head = nullptr;
+        top = -1;
+    }
+
+    ~LinkedList()
+    {
+        while (head != nullptr)
+        {
+            Node *next = head->next;
+            delete head;
+            head = next;
+        }
+    }
+
+    void get(int index)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty\n";
+            return;
+        }
+        if (index < 0 || index > top)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+        Node *temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp->next;
+        }
+        cout << temp->data << "\n";
+    }
+
+    void deleteNode(int index)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty\n";
+            return;
+        }
+        if (index < 0 || index > top)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+        if (index == 0)
+        {
+            Node *deleteNode = head;
+            head = head->next;
+            delete deleteNode;
+            top--;
+            return;
+        }
+        if (index == top)
+        {
+            Node *temp = head;
+            while (temp->next->next != nullptr)
+            {
+                temp = temp->next;
+            }
+            Node *deleteNode = temp->next;
+            temp->next = nullptr;
+            delete deleteNode;
+            top--;
+            return;
+        }
+
+        Node *temp = head;
+        for (int i = 0; i < index - 1; i++)
+        {
+            temp = temp->next;
+        }
+        Node *deleteNode = temp->next;
+        temp->next = temp->next->next;
+        top--;
+        delete deleteNode;
+    }
+
+    void insertNode(int x, int index)
+    {
+        if (index > top + 1 || index < 0)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+        if (head == nullptr)
+        {
+            head = new Node(x);
+            top++;
+            return;
+        }
+        if (index == 0)
+        {
+            Node *newNode = new Node(x);
+            newNode->next = head;
+            head = newNode;
+            top++;
+            return;
+        }
+        if (index == top + 1)
+        {
+            Node *temp = head;
+            while (temp->next != nullptr)
+            {
+                temp = temp->next;
+            }
+            temp->next = new Node(x);
+            top++;
+            return;
+        }
+
+        Node *temp = head;
+        for (int i = 0; i < index - 1; i++)
+        {
+            temp = temp->next;
+        }
+
+        Node *newNode = new Node(x);
+        newNode->next = temp->next;
+        temp->next = newNode;
+        top++;
+    }
+
+    /* void makeCircular()
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty\n";
+            return;
+        }
+
+        Node *temp = head;
+        while (temp->next != nullptr)
+            temp = temp->next;
+
+        temp->next = head;
+
+        temp = nullptr;
+        delete temp;
+    } */
+};
