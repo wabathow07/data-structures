@@ -1,96 +1,165 @@
-#include<iostream>
+/*
+array
+
+dynamic array: int* arr = new int[20] -> use when you don't know the size at compile time
+
+list: collection of items of same type, stored in some particular order
+list operations: 
+- createList(): create a new list (presumably empty)
+- copy(): set one list to be a copy of another
+- clear(); clear a list (remove all elments)
+- insert(int index, int x): Insert element x at a particular position in the list
+- remove(int index): Remove element at some position in the list
+- get(int index): Get element at a given position
+- update(int x, int index): replace the element at a given position with X
+- find(int x): determine if the element X is in the list
+- length(): return the length of the list.
+
+to traverse in a list, we need to use iterations (ignore the shits he wrote in the slide it's for python):
+    for (it = data.begin(); it != data.end(); ++it) {
+        std::cout<<(*it)->name;
+    }
+
+linear list operations: isEmpty(), length(), retrieve(int index), indexOf(int x), delete(int index), insert(int index, int x)
+*/
+
+#include <iostream>
 using namespace std;
 
-class Lists {
+class ArrayList
+{
 private:
-    int arr[10000];
-    int top = -1;
+    int *arr;
+    int capacity;
+    int top;
 
 public:
-    Lists() {}
+    ArrayList(int cap)
+    {
+        if (cap < 0)
+        {
+            cout << "Invalid capacity. Setting capacity to 0\n";
+            cap = 0;
+        }
+        capacity = cap;
+        arr = new int[capacity];
+        top = -1;
+    }
 
-    void copy(Lists a) {
-        if (a.top == -1) {
-            cout << "Nothing to copy\n";
-            return;
-        } else {
-            for (int i = 0; i <= a.top; i++) {
-                arr[i] = a.arr[i];
-            }
+    ~ArrayList() { delete[] arr; }
+
+    ArrayList(const ArrayList &a)
+    {
+        this->capacity = a.capacity;
+        this->top = a.top;
+        this->arr = new int[capacity];
+
+        for (int i = 0; i <= top; i++)
+        {
+            this->arr[i] = a.arr[i];
         }
     }
 
-    void clear() {top = -1; return;}
+    void clear()
+    {
+        delete[] arr;
+        arr = new int[capacity];
+        top = -1;
+    }
 
-    void insertX(int x, int ind) {
-        if (top == 9999) {
+    void insert(int x, int index)
+    {
+        if (index > length() || index < 0)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        if (length() == capacity)
+        {
             cout << "List is full\n";
             return;
-        } 
-
-        for (int i = top+1; i >= ind; i--) {
-            arr[i] = arr[i-1];
         }
 
-        arr[ind] = x; top++;
+        for (int i = top + 1; i > index; i--)
+        {
+            arr[i] = arr[i - 1];
+        }
+
+        arr[index] = x;
+        top++;
     }
 
-    void remove(int ind) {
-        if (top == -1) {
+    void remove(int index)
+    {
+        if (index > top || index < 0)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        if (top == -1)
+        {
             cout << "List is empty\n";
             return;
         }
 
-        for (int i = ind; i < top; i++) {
-            arr[i] = arr[i+1];
+        for (int i = index; i < top; i++)
+        {
+            arr[i] = arr[i + 1];
         }
-
         top--;
     }
 
-    void get(int ind) {
-        if (top == -1) {
+    int get(int index)
+    {
+        if (index > top || index < 0)
+        {
+            cout << "Invalid index\n";
+            return -1;
+        }
+
+        if (top == -1)
+        {
             cout << "List is empty\n";
-            return;
-        } else if (top < ind) {
-            cout << "No element at this index\n";
-            return;
-        } else cout << "Element at this index: " << arr[ind] << "\n";
+            return -1;
+        }
+
+        return arr[index];
     }
 
-    void update(int x, int ind) {
-        if (top == -1) {
+    void update(int x, int index)
+    {
+        if (index > top || index < 0)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        if (top == -1)
+        {
             cout << "List is empty\n";
             return;
-        } else if (top < ind) {
-            cout << "No element at this index\n";
-        } else arr[ind] = x;
+        }
+
+        arr[index] = x;
     }
 
-    bool find(int x) {
-        for (int i = 0; i <= top; i++) {
-            if (arr[i] == x) return true;
+    bool find(int x)
+    {
+        for (int i = 0; i <= top; i++)
+        {
+            if (arr[i] == x)
+                return true;
         }
 
         return false;
     }
 
-    int length() {return top;}
-
-    void display() {
-        for (int i = 0; i <= top; i++) cout << arr[i] << " ";
-    }
+    int length() { return top + 1; }
 };
 
-void createList() {
-    Lists a;
-}
-
-int main() {
-    Lists a;
-
-    a.insertX(10, 0);
-    a.display();
-
-    return 0;
+ArrayList createList(int cap)
+{
+    return ArrayList(cap);
 }
