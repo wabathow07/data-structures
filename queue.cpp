@@ -19,16 +19,19 @@ private:
     int rear;
 
 public:
-    QueueNormalArray(int cap)
+    QueueNormalArray(int cap) // O(1)
     {
         capacity = cap;
         arr = new int[capacity];
         rear = -1;
     }
 
-    ~QueueNormalArray() { delete[] arr; }
+    ~QueueNormalArray() // O(1)
+    {
+        delete[] arr;
+    }
 
-    void enqueueJob(int x)
+    void enqueueJob(int x) // O(1)
     {
         if (rear == capacity - 1)
         {
@@ -42,7 +45,7 @@ public:
         }
     }
 
-    void accessQueueJobs(int index)
+    void accessQueueJobs(int index) // O(1)
     {
         if (index > rear)
         {
@@ -60,7 +63,7 @@ public:
         }
     }
 
-    void dequeueJob()
+    void dequeueJob() // O(n)
     {
         if (rear == -1)
         {
@@ -82,7 +85,7 @@ public:
         }
     }
 
-    int searchJob(int job)
+    int searchJob(int job) // O(n)
     {
         for (int i = 0; i <= rear; i++)
         {
@@ -96,9 +99,12 @@ public:
         return -1;
     }
 
-    int size() { return rear + 1; }
+    int size() // O(1)
+    {
+        return rear + 1;
+    }
 
-    bool isEmpty()
+    bool isEmpty() // O(1)
     {
         if (rear == -1)
             return true;
@@ -106,7 +112,7 @@ public:
             return false;
     }
 
-    bool isFull()
+    bool isFull() // O(1)
     {
         if (rear == capacity - 1)
             return true;
@@ -114,7 +120,7 @@ public:
             return false;
     }
 
-    void changeFront(int x)
+    void changeFront(int x) // O(1)
     {
         if (rear == -1)
         {
@@ -125,7 +131,7 @@ public:
             arr[0] = x;
     }
 
-    void changeBack(int x)
+    void changeBack(int x) // O(1)
     {
         if (rear == -1)
         {
@@ -136,7 +142,7 @@ public:
             arr[rear] = x;
     }
 
-    void displayAllJobs()
+    void displayAllJobs() // O(n)
     {
         cout << "All current jobs: ";
         for (int i = 0; i <= rear; i++)
@@ -156,7 +162,7 @@ private:
     int capacity;
 
 public:
-    QueueCircularArray(int cap)
+    QueueCircularArray(int cap) // O(1)
     {
         capacity = cap;
         arr = new int[capacity];
@@ -164,9 +170,12 @@ public:
         size = 0;
     }
 
-    ~QueueCircularArray() { delete[] arr; }
+    ~QueueCircularArray() // O(1)
+    {
+        delete[] arr;
+    }
 
-    void enqueueJob(int x)
+    void enqueueJob(int x) // O(1)
     {
         if (size == capacity)
         {
@@ -179,7 +188,7 @@ public:
         cout << "New job added\n";
     }
 
-    void dequeueJob()
+    void dequeueJob() // O(1)
     {
         if (size == 0)
         {
@@ -191,7 +200,7 @@ public:
         cout << "Job remove completed\n";
     }
 
-    int searchJob(int job)
+    int searchJob(int job) // O(n)
     {
         for (int i = 0; i < size; i++)
         {
@@ -205,7 +214,7 @@ public:
         return -1;
     }
 
-    void insertJob(int job, int index)
+    void insertJob(int job, int index) // O(n)
     {
         if (size == capacity)
         {
@@ -227,7 +236,7 @@ public:
         cout << "Job " << job << " is inserted at index " << index << "\n";
     }
 
-    void cancelJob(int job)
+    void cancelJob(int job) // O(n)
     {
         int index = -1;
         for (int i = 0; i < size; i++)
@@ -249,7 +258,7 @@ public:
         size--;
     }
 
-    bool isEmpty()
+    bool isEmpty() // O(1)
     {
         if (size == 0)
             return true;
@@ -257,11 +266,17 @@ public:
             return false;
     }
 
-    bool isFull() { return size == capacity; }
+    bool isFull() // O(1)
+    {
+        return size == capacity;
+    }
 
-    int queueSize() { return size; }
+    int queueSize() // O(1)
+    {
+        return size;
+    }
 
-    void displayAllJobs()
+    void displayAllJobs() // O(n)
     {
         cout << "All current jobs: ";
         for (int i = 0; i < size; i++)
@@ -287,7 +302,7 @@ private:
     int capacity;
 
 public:
-    QueueLinkedList(int cap)
+    QueueLinkedList(int cap) // O(1)
     {
         capacity = cap;
         head = nullptr;
@@ -295,7 +310,7 @@ public:
         size = 0;
     }
 
-    ~QueueLinkedList()
+    ~QueueLinkedList() // O(n)
     {
         while (head != nullptr)
         {
@@ -305,7 +320,7 @@ public:
         }
     }
 
-    void enqueueJob(int x)
+    void enqueueJob(int x) // O(1)
     {
         if (size == capacity)
         {
@@ -331,7 +346,7 @@ public:
         cout << "New job added\n";
     }
 
-    void accessQueueJobs(int index)
+    void accessQueueJobs(int index) // O(n)
     {
         if (index < 0)
         {
@@ -351,7 +366,7 @@ public:
         cout << "Job at index " << index << " is " << temp->data << "\n";
     }
 
-    void dequeueJob()
+    void dequeueJob() // O(1)
     {
         if (size == 0)
         {
@@ -369,7 +384,7 @@ public:
         cout << "Job remove completed\n";
     }
 
-    int searchJob(int job)
+    int searchJob(int job) // O(n)
     {
         Node *temp = head;
         int index = 0;
@@ -387,7 +402,7 @@ public:
         return -1;
     }
 
-    void insertJob(int job, int index)
+    void insertJob(int job, int index) // O(n)
     {
         if (size == capacity)
         {
@@ -426,7 +441,7 @@ public:
         cout << "Job " << job << " is inserted at index " << index << "\n";
     }
 
-    void cancelJob(int job)
+    void cancelJob(int job) // O(n)
     {
         Node *prev = nullptr;
         Node *cur = head;
@@ -455,16 +470,22 @@ public:
         size--;
     }
 
-    bool isEmpty()
+    bool isEmpty() // O(1)
     {
         return size == 0;
     }
 
-    bool isFull() { return size == capacity; }
+    bool isFull() // O(1)
+    {
+        return size == capacity;
+    }
 
-    int queueSize() { return size; }
+    int queueSize() // O(1)
+    {
+        return size;
+    }
 
-    void displayAllJobs()
+    void displayAllJobs() // O(n)
     {
         cout << "All current jobs: ";
         Node *temp = head;

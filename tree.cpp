@@ -46,55 +46,70 @@ tree traversal:
 
 #include <iostream>
 #include <queue>
-#include<cmath>
+#include <vector>
+#include <cmath>
 using namespace std;
 
 class ArrayTree {
 private:
     int capacity;
-    char arr[capacity];
+    vector<char> arr;
     int node;
 
 public:
-    ArrayTree(int cap) {capacity = cap; node = 0; for (int i = 1; i <= capacity; i++) arr[i] = '-';}
+    ArrayTree(int cap) // O(cap)
+    {
+        capacity = cap;
+        arr.assign(capacity + 1, '-');
+        node = 0;
+    }
 
-    void insertNode(char x, int index) {
-        if (index == 0) {
-            cout << "Invalid index\n"; 
+    void insertNode(char x, int index) // O(1)
+    {
+        if (index <= 0 || index > capacity) {
+            cout << "Invalid index\n";
             return;
         }
 
         if (arr[index] != '-') {
             cout << "Modified node " << index << " to " << x << "\n";
-            arr[index] = x;
         }
 
         arr[index] = x;
         node++;
     }
 
-    int determineHeight() {
-        int ans = log2(node + 1);
-        double ans1 = log2(node + 1);
-        if (ans1 > ans) return ans + 1;
-        else return ans;
+    int determineHeight() // O(1)
+    {
+        if (node == 0)
+            return 0;
+
+        int h = static_cast<int>(log2(node + 1));
+        double exact = log2(node + 1.0);
+        return (exact > h) ? h + 1 : h;
     }
 
-    void clone(ArrayTree a) {
-        for (int i = 1; i <= capacity; i++) {
-            a.arr[i] = this->arr[i];
-        }
+    void clone(const ArrayTree &a) // O(cap)
+    {
+        this->capacity = a.capacity;
+        this->node = a.node;
+        this->arr = a.arr;
     }
 
-    bool isClone(ArrayTree a) {
+    bool isClone(const ArrayTree &a) const // O(cap)
+    {
+        if (this->capacity != a.capacity || this->node != a.node)
+            return false;
+
         for (int i = 1; i <= capacity; i++) {
-            if (a.arr[i] != this.arr[i]) return false;
+            if (a.arr[i] != this->arr[i]) return false;
         }
 
         return true;
     }
 
-    void display() {
+    void display() // O(cap)
+    {
         for (int i = 1; i <= capacity; i++) {
             cout << i << ": " << arr[i] << "\n";
         }
@@ -120,7 +135,7 @@ struct treeNode
     }
 };
 
-int determineHeight(treeNode *node)
+int determineHeight(treeNode *node) // O(n)
 {
     if (node == nullptr)
         return 0;
@@ -131,7 +146,7 @@ int determineHeight(treeNode *node)
     return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
 }
 
-int numberOfNode(treeNode *node)
+int numberOfNode(treeNode *node) // O(n)
 {
     if (node == nullptr)
         return 0;
@@ -144,9 +159,12 @@ class LinkedListTree
 public:
     treeNode *root;
 
-    LinkedListTree() { root = nullptr; }
+    LinkedListTree() // O(1)
+    {
+        root = nullptr;
+    }
 
-    void preOrder(treeNode *node)
+    void preOrder(treeNode *node) // O(n)
     {
         if (node != nullptr)
         {
@@ -156,7 +174,7 @@ public:
         }
     }
 
-    void inOrder(treeNode *node)
+    void inOrder(treeNode *node) // O(n)
     {
         if (node != nullptr)
         {
@@ -166,7 +184,7 @@ public:
         }
     }
 
-    void postOrder(treeNode *node)
+    void postOrder(treeNode *node) // O(n)
     {
         if (node != nullptr)
         {
@@ -176,28 +194,28 @@ public:
         }
     }
 
-    void levelOrder(treeNode *node)
+    void levelOrder(treeNode *node) // O(n)
     {
-        queue<treeNode *> child;
-        while (node != nullptr)
-        {
-            if (node->leftC != nullptr)
-                child.push(node->leftC);
-            if (node->rightC != nullptr)
-                child.push(node->rightC);
+        if (node == nullptr)
+            return;
 
-            if (child.empty())
-                node = nullptr;
-            else
-            {
-                node = child.front();
-                child.pop();
-                cout << node->data << " ";
-            }
+        queue<treeNode *> q;
+        q.push(node);
+
+        while (!q.empty())
+        {
+            treeNode *current = q.front();
+            q.pop();
+            cout << current->data << " ";
+
+            if (current->leftC != nullptr)
+                q.push(current->leftC);
+            if (current->rightC != nullptr)
+                q.push(current->rightC);
         }
     }
 
-    bool isClone(treeNode *root, treeNode *otherRoot)
+    bool isClone(treeNode *root, treeNode *otherRoot) // O(n)
     {
         if (root == nullptr || otherRoot == nullptr)
             return root == otherRoot;
@@ -205,7 +223,7 @@ public:
         return root->data == otherRoot->data && isClone(root->leftC, otherRoot->leftC) && isClone(root->rightC, otherRoot->rightC);
     }
 
-    treeNode *clone(treeNode *node)
+    treeNode *clone(treeNode *node) // O(n)
     {
         if (node == nullptr)
             return nullptr;
@@ -218,9 +236,15 @@ public:
         return copy;
     }
 
-    int determineHeight() { return ::determineHeight(root); }
+    int determineHeight() // O(n)
+    {
+        return ::determineHeight(root);
+    }
 
-    int numberOfNode() { return ::numberOfNode(root); } // '::' is for calling global functions (outside the class)
+    int numberOfNode() // O(n)
+    {
+        return ::numberOfNode(root);
+    }
 };
 
 int main()

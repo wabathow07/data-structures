@@ -33,13 +33,13 @@ private:
     int count;
 
 public:
-    LinkedListStack()
+    LinkedListStack() // O(1)
     {
         top = nullptr;
         count = 0;
     }
 
-    void push(char x) // time complexity: O(1)
+    void push(char x) // O(1)
     {
         if (top == nullptr)
         {
@@ -56,7 +56,7 @@ public:
         count++;
     }
 
-    void pop() // time complexity: O(1)
+    void pop() // O(1)
     {
         if (top == nullptr)
         {
@@ -72,7 +72,7 @@ public:
         count--;
     }
 
-    void pop(int index) // time complexity: O(n)
+    void pop(int index) // O(n)
     {
         if (index >= count || index < 0)
         {
@@ -86,7 +86,7 @@ public:
         cout << "Current value at the top: " << top->data << "\n";
     }
 
-    void display()
+    void display() // O(n)
     {
         cout << "Stack from top to bottom: \n";
         Node *temp = top;
@@ -97,7 +97,7 @@ public:
         }
     }
 
-    char peek() // time complexity: O(1)
+    char peek() // O(1)
     {
         if (top == nullptr)
         {
@@ -107,9 +107,15 @@ public:
         return top->data;
     }
 
-    bool isEmpty() { return top == nullptr; } // time complexity: O(1)
+    bool isEmpty() // O(1)
+    {
+        return top == nullptr;
+    }
 
-    int size() { return count; }
+    int size() // O(1)
+    {
+        return count;
+    }
 };
 
 int main()

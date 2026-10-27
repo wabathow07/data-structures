@@ -4,7 +4,7 @@ array
 dynamic array: int* arr = new int[20] -> use when you don't know the size at compile time
 
 list: collection of items of same type, stored in some particular order
-list operations: 
+list operations:
 - createList(): create a new list (presumably empty)
 - copy(): set one list to be a copy of another
 - clear(); clear a list (remove all elments)
@@ -20,6 +20,10 @@ to traverse in a list, we need to use iterations (ignore the shits he wrote in t
         std::cout<<(*it)->name;
     }
 
+doubly linked list: insert(), delete(), search(), print()
+
+type of linked lists: with dummy (sentinel), without dummy, circular
+
 linear list operations: isEmpty(), length(), retrieve(int index), indexOf(int x), delete(int index), insert(int index, int x)
 */
 
@@ -34,7 +38,7 @@ private:
     int top;
 
 public:
-    ArrayList(int cap)
+    ArrayList(int cap) // O(1)
     {
         if (cap < 0)
         {
@@ -46,9 +50,12 @@ public:
         top = -1;
     }
 
-    ~ArrayList() { delete[] arr; }
+    ~ArrayList() // O(1)
+    {
+        delete[] arr;
+    }
 
-    ArrayList(const ArrayList &a)
+    ArrayList(const ArrayList &a) // O(n)
     {
         this->capacity = a.capacity;
         this->top = a.top;
@@ -60,14 +67,14 @@ public:
         }
     }
 
-    void clear()
+    void clear() // O(n)
     {
         delete[] arr;
         arr = new int[capacity];
         top = -1;
     }
 
-    void insert(int x, int index)
+    void insert(int x, int index) // O(n)
     {
         if (index > length() || index < 0)
         {
@@ -90,7 +97,7 @@ public:
         top++;
     }
 
-    void remove(int index)
+    void remove(int index) // O(n)
     {
         if (index > top || index < 0)
         {
@@ -111,7 +118,7 @@ public:
         top--;
     }
 
-    int get(int index)
+    int get(int index) // O(1)
     {
         if (index > top || index < 0)
         {
@@ -128,7 +135,7 @@ public:
         return arr[index];
     }
 
-    void update(int x, int index)
+    void update(int x, int index) // O(1)
     {
         if (index > top || index < 0)
         {
@@ -145,7 +152,7 @@ public:
         arr[index] = x;
     }
 
-    bool find(int x)
+    bool find(int x) // O(n)
     {
         for (int i = 0; i <= top; i++)
         {
@@ -156,10 +163,13 @@ public:
         return false;
     }
 
-    int length() { return top + 1; }
+    int length() // O(1)
+    {
+        return top + 1;
+    }
 };
 
-ArrayList createList(int cap)
+ArrayList createList(int cap) // O(1)
 {
     return ArrayList(cap);
 }
@@ -183,13 +193,13 @@ private:
     int top;
 
 public:
-    LinkedList()
+    LinkedList() // O(1)
     {
         head = nullptr;
         top = -1;
     }
 
-    ~LinkedList()
+    ~LinkedList() // O(n)
     {
         while (head != nullptr)
         {
@@ -199,7 +209,7 @@ public:
         }
     }
 
-    void get(int index)
+    void get(int index) // O(n)
     {
         if (head == nullptr)
         {
@@ -219,7 +229,7 @@ public:
         cout << temp->data << "\n";
     }
 
-    void deleteNode(int index)
+    void deleteNode(int index) // O(n)
     {
         if (head == nullptr)
         {
@@ -264,7 +274,7 @@ public:
         delete deleteNode;
     }
 
-    void insertNode(int x, int index)
+    void insertNode(int x, int index) // O(n)
     {
         if (index > top + 1 || index < 0)
         {
@@ -326,4 +336,138 @@ public:
         temp = nullptr;
         delete temp;
     } */
+};
+
+struct DoublyNode
+{
+    int data;
+    DoublyNode *prev;
+    DoublyNode *next;
+
+    DoublyNode(int d)
+    {
+        data = d;
+        prev = nullptr;
+        next = nullptr;
+    }
+};
+
+class DoublyLinkedList
+{
+private:
+    DoublyNode *head;
+    int top;
+
+public:
+    DoublyLinkedList() // O(1)
+    {
+        head = nullptr;
+        top = -1;
+    }
+
+    ~DoublyLinkedList() // O(n)
+    {
+        while (head != nullptr)
+        {
+            DoublyNode *next = head->next;
+            delete head;
+            head = next;
+        }
+    }
+
+    void get(int index) // O(n)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty\n";
+            return;
+        }
+        if (index < 0 || index > top)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        DoublyNode *temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp->next;
+        }
+        cout << temp->data << "\n";
+    }
+
+    void deleteNode(int index) // O(n)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty\n";
+            return;
+        }
+        if (index < 0 || index > top)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        DoublyNode *nodeToDelete = head;
+        for (int i = 0; i < index; i++)
+        {
+            nodeToDelete = nodeToDelete->next;
+        }
+
+        if (nodeToDelete->prev != nullptr)
+        {
+            nodeToDelete->prev->next = nodeToDelete->next;
+        }
+        else
+        {
+            head = nodeToDelete->next;
+        }
+
+        if (nodeToDelete->next != nullptr)
+        {
+            nodeToDelete->next->prev = nodeToDelete->prev;
+        }
+
+        delete nodeToDelete;
+        top--;
+    }
+
+    void insertNode(int x, int index) // O(n)
+    {
+        if (index < 0 || index > top + 1)
+        {
+            cout << "Invalid index\n";
+            return;
+        }
+
+        DoublyNode *newNode = new DoublyNode(x);
+        if (index == 0)
+        {
+            newNode->next = head;
+            if (head != nullptr)
+            {
+                head->prev = newNode;
+            }
+            head = newNode;
+        }
+        else
+        {
+            DoublyNode *temp = head;
+            for (int i = 0; i < index - 1; i++)
+            {
+                temp = temp->next;
+            }
+
+            newNode->next = temp->next;
+            newNode->prev = temp;
+            if (temp->next != nullptr)
+            {
+                temp->next->prev = newNode;
+            }
+            temp->next = newNode;
+        }
+
+        top++;
+    }
 };
