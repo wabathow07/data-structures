@@ -18,13 +18,14 @@ Non-comparison linear sorting:
 #include <algorithm>
 using namespace std;
 
-void selection(vector<int> &a)
+template <typename T>
+void selection(vector<T> &a)
 {
-    int n = a.size();
+    T n = a.size();
 
     for (int i = 0; i < n - 1; ++i)
     {
-        int minIndex = i;
+        T minIndex = i;
 
         for (int j = i + 1; j < n; ++j)
         {
@@ -59,14 +60,15 @@ for i = 0 to length(A) - 2 do
 end for
 */
 
-void bubbleSort(vector<int> &a)
+template <typename T>
+void bubbleSort(vector<T> &a)
 {
     int n = a.size();
     for (int i = 0; i < n - 1; i++)
     {
         for (int j = 0; j < n - 1 - i; j++)
         {
-            if (a[j] > a[j + 1])
+            if (a[j] < a[j + 1])
                 swap(a[j], a[j + 1]);
         }
     }
@@ -88,12 +90,13 @@ for i from 0 to n - 2 do
 end for
 */
 
-void insertion(vector<int> &a)
+template <typename T>
+void insertion(vector<T> &a)
 {
     int n = a.size();
     for (int i = 1; i < n; i++)
     {
-        int t = a[i];
+        T t = a[i];
         int j;
         for (j = i - 1; j >= 0 && t < a[j]; j--)
         {
@@ -121,12 +124,13 @@ for i = 1 to length(A) - 1
 }
 */
 
-void merge(vector<int> &a, int left, int mid, int right)
+template <typename T>
+void merge(vector<T> &a, int left, int mid, int right)
 {
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    vector<int> L(n1), R(n2);
+    vector<T> L(n1), R(n2);
     for (int i = 0; i < n1; i++)
     {
         L[i] = a[left + i];
@@ -169,7 +173,8 @@ void merge(vector<int> &a, int left, int mid, int right)
     }
 }
 
-void mergeSort(vector<int> &a, int left, int right)
+template <typename T>
+void mergeSort(vector<T> &a, int left, int right)
 {
     if (left >= right)
         return;
@@ -197,8 +202,16 @@ int main()
 {
     vector<int> a = {20, 10, 30, 50, 100, 99, 60, 11};
     int n = a.size();
-    mergeSort(a, 0, n - 1);
     for (auto x : a)
+    {
+        cout << x << " ";
+    }
+    cout << "\n";
+
+    vector<double> b = {2.11, 1.12, 3.14, 3.56, 7.12, 9.11, 8.50};
+    int m = b.size();
+    bubbleSort(b);
+    for (auto x : b)
     {
         cout << x << " ";
     }
